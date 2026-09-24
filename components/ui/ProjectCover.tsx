@@ -121,7 +121,8 @@ function Gundata() {
   const cells = [];
   for (let r = 0; r < 6; r++) {
     for (let c = 0; c < 18; c++) {
-      const v = (Math.sin(r * 1.7 + c * 0.6) + Math.cos(c * 0.9 - r)) * 0.25 + 0.5;
+      // Rounded so server and browser agree (their sin/cos differ in the last digits).
+      const v = Math.round(((Math.sin(r * 1.7 + c * 0.6) + Math.cos(c * 0.9 - r)) * 0.25 + 0.5) * 1000) / 1000;
       cells.push(
         <rect
           key={`${r}-${c}`}
@@ -168,7 +169,8 @@ function SnapTune() {
       <path d="M30 170 L75 125 L100 150 L120 132 L140 150 V180 H30 Z" fill={T} fillOpacity={0.35} />
       <path d="M150 120 H180" stroke="#fff" strokeOpacity={0.4} strokeDasharray="4 4" className="cover-dash" />
       {Array.from({ length: 22 }).map((_, i) => {
-        const h = 20 + Math.abs(Math.sin(i * 0.8)) * 70;
+        // Rounded so server and browser agree (their sin differs in the last digits).
+        const h = Math.round((20 + Math.abs(Math.sin(i * 0.8)) * 70) * 100) / 100;
         return (
           <rect
             key={i}
