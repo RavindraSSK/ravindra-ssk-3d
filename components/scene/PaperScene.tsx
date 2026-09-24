@@ -368,7 +368,7 @@ export default function PaperScene() {
   useFrame((_, delta) => {
     const dt = Math.min(delta, 0.05);
     const s = store.chapter;
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
     groups.current.forEach((g, k) => {
       if (!g) return;
       const w = Math.min(Math.max(1 - Math.abs(s - k), 0), 1);

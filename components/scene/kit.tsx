@@ -152,7 +152,7 @@ export function useChapterRig(
   useFrame((_, delta) => {
     const dt = Math.min(delta, 0.05);
     const s = store.chapter;
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
     warm.n++;
     const warming = warm.n < 5;
     groups.current?.forEach((g, k) => {

@@ -171,7 +171,7 @@ export default function AgentScene() {
     const a = Math.floor(s);
     const b = Math.min(a + 1, KEYS.length - 1);
     const f = smooth(0, 1, s - a);
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
     const A = KEYS[a], B = KEYS[b];
     const mix = (u: readonly number[], v: readonly number[]) => u.map((x, i) => x + (v[i] - x) * f);
 

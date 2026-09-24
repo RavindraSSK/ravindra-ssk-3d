@@ -82,8 +82,11 @@ function Dust({ count }: { count: number }) {
 export default function Scene() {
   const [mobile, setMobile] = useState(false);
 
+  // Lighter scene for phones and small tablets. Layout (centred vs beside the
+  // text) is decided by canvas width in each scene, so touch laptops and large
+  // tablets keep the desktop look.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px), (pointer: coarse)");
+    const mq = window.matchMedia("(max-width: 767px), (pointer: coarse) and (max-width: 1024px)");
     const update = () => {
       store.isMobile = mq.matches;
       setMobile(mq.matches);

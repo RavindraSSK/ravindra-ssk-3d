@@ -319,7 +319,7 @@ export default function GraphScene() {
     const s = Math.min(Math.max(store.chapter, 0), 6);
     const a = Math.floor(s), b = Math.min(a + 1, 6);
     const f = smooth(0, 1, s - a);
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
 
     for (let i = 1; i < 5; i++) reveal.current[i] = clamp01((s - i + 0.8) / 0.6);
     const graph = clamp01((s - 5 + 0.8) / 0.6);

@@ -360,7 +360,7 @@ export default function OrbitalScene() {
     const f = smooth(0, 1, s - base);
     const A = KEYS[base];
     const B = KEYS[next];
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
 
     tA.set(...A.cam).lerp(tB.set(...B.cam), f);
     if (narrow) tA.z += 2.6;
