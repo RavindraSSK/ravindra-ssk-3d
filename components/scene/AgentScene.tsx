@@ -18,6 +18,8 @@ const BG = "#08090d";
 const LIME = "#a3e635";
 const CYAN = "#22d3ee";
 const INK = "#eef2ea";
+const LIME_C = new THREE.Color(LIME);
+const INK_C = new THREE.Color(INK);
 const DIM = "#3a4150";
 
 type Key = { offset: [number, number, number]; cam: [number, number, number]; look: [number, number, number]; scale?: number };
@@ -171,7 +173,7 @@ export default function AgentScene() {
     const a = Math.floor(s);
     const b = Math.min(a + 1, KEYS.length - 1);
     const f = smooth(0, 1, s - a);
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
     const A = KEYS[a], B = KEYS[b];
     const mix = (u: readonly number[], v: readonly number[]) => u.map((x, i) => x + (v[i] - x) * f);
 
@@ -268,7 +270,7 @@ export default function AgentScene() {
   });
 
   useFrame(() => {
-    toolMats.forEach((m, i) => m.color.lerp(new THREE.Color(store.hoverCluster === i ? LIME : INK), 0.15));
+    toolMats.forEach((m, i) => m.color.lerp(store.hoverCluster === i ? LIME_C : INK_C, 0.15));
   });
 
   return (

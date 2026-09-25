@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState, useEffect, useSyncExternalStore } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { PerformanceMonitor } from "@react-three/drei";
 import { EffectComposer, Bloom, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
 import NeuralField from "./NeuralField";
@@ -81,9 +82,22 @@ function Dust({ count }: { count: number }) {
 
 export default function Scene() {
   const [mobile, setMobile] = useState(false);
+  // Adaptive quality: if the frame rate drops, first render at 1x pixel ratio,
+  // then drop bloom. Never steps back up, so it can't oscillate.
+  const [maxDpr, setMaxDpr] = useState(1.5);
+  const [lowPower, setLowPower] = useState(false);
+  const declines = useRef(0);
+  const onDecline = () => {
+    declines.current++;
+    if (declines.current === 1) setMaxDpr(1);
+    else setLowPower(true);
+  };
 
+  // Lighter scene for phones and small tablets. Layout (centred vs beside the
+  // text) is decided by canvas width in each scene, so touch laptops and large
+  // tablets keep the desktop look.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px), (pointer: coarse)");
+    const mq = window.matchMedia("(max-width: 767px), (pointer: coarse) and (max-width: 1024px)");
     const update = () => {
       store.isMobile = mq.matches;
       setMobile(mq.matches);
@@ -108,11 +122,12 @@ export default function Scene() {
       key={theme}
       className="!fixed inset-0 !h-[100lvh] !w-full"
       camera={{ position: [0, 0, cam.z], fov: cam.fov, near: 0.1, far: 100 }}
-      dpr={[1, 1.5]}
+      dpr={[1, maxDpr]}
       gl={{ antialias: theme !== "neural", powerPreference: "high-performance", alpha: false }}
       aria-hidden
     >
       <ReadySignal />
+      <PerformanceMonitor onDecline={onDecline} flipflops={Infinity} />
       {theme === "studio" && <StudioScene />}
       {theme === "orbital" && <OrbitalScene />}
       {theme === "paper" && <PaperScene />}
@@ -132,7 +147,7 @@ export default function Scene() {
           <color attach="background" args={["#04070d"]} />
           <NeuralField key={count} count={count} />
           <Dust count={mobile ? 500 : 1400} />
-          {!mobile && (
+          {!mobile && !lowPower && (
             <EffectComposer multisampling={0}>
               <Bloom mipmapBlur resolutionScale={0.5} levels={5} intensity={0.85} luminanceThreshold={0.08} luminanceSmoothing={0.3} radius={0.7} />
               <Vignette eskil={false} offset={0.25} darkness={0.75} />

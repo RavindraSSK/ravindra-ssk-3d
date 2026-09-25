@@ -356,7 +356,7 @@ export default function DiffusionScene() {
     u.uHover.value = store.hoverCluster;
 
     // placement
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
     const k = smooth(0, 1, f);
     const off = OFFSETS[a].map((v, i) => v + (OFFSETS[b][i] - v) * k);
     if (pointsRef.current && frameRef.current) {

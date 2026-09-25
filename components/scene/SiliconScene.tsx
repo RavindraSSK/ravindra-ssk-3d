@@ -237,7 +237,7 @@ export default function SiliconScene() {
     const s = Math.min(Math.max(store.chapter, 0), 6);
     const a = Math.floor(s), b = Math.min(a + 1, 6);
     const f = smooth(0, 1, s - a);
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
     const on = [1, 1, 2, 3, 4, 5].map((_, i) => (i === 0 ? 1 : clamp01((s - i + 0.8) / 0.6)));
 
     // zoom: fit the newest stage beside the text (log-space blend)

@@ -323,7 +323,7 @@ export default function StudioScene() {
   useFrame((_, delta) => {
     const dt = Math.min(delta, 0.05);
     const s = store.chapter;
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
 
     // Warm-up: draw every chapter's objects (tiny) for the first few frames so
     // all shaders compile behind the loader, not mid-scroll.

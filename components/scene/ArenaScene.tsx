@@ -16,6 +16,7 @@ import { Backdrop, ChapterGroups, Poly, Segs, V, lineGeo, lineMat, rng, useChapt
 const BG = "#080b10";
 const LINE = "#f1f4f8";
 const ACCENT = "#ff7a1f";
+const LINE_C = new THREE.Color(LINE);
 const BLUE = "#4f8cff";
 
 // Court units: 1 unit = 1/7 of 40 m court (so 6 m ≈ 0.86)
@@ -541,7 +542,7 @@ function Defence({ m }: { m: Mats }) {
       const on = store.hoverCluster === i ? 1 : 0;
       const u = pillars[i].uniforms;
       u.uOn.value = THREE.MathUtils.lerp(u.uOn.value, on, 0.15);
-      (u.uColor.value as THREE.Color).lerp(on ? accent : new THREE.Color(LINE), 0.15);
+      (u.uColor.value as THREE.Color).lerp(on ? accent : LINE_C, 0.15);
       discs[i].color.lerp(on ? accent : white, 0.15);
       const pillar = g.children[1];
       pillar.scale.y = THREE.MathUtils.lerp(pillar.scale.y, 1 + on * 1.4, 0.15);

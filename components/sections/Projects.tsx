@@ -61,17 +61,29 @@ export default function Projects() {
           },
         });
 
-        // When scrolling pauses mid-track, glide to the nearest whole-card position.
+        // When scrolling pauses mid-track, glide to a whole-card position in the
+        // direction the user was scrolling. Snapping to the *nearest* card pulled
+        // slow scrolls (a wheel notch or two, then a pause) back to where they
+        // started, so the section felt stuck.
         const st = tween.scrollTrigger!;
         let timer = 0;
+        let lastY = window.scrollY;
+        let dir = 1;
         const onScroll = () => {
+          const y = window.scrollY;
+          if (y !== lastY) dir = y > lastY ? 1 : -1;
+          lastY = y;
           window.clearTimeout(timer);
           timer = window.setTimeout(() => {
             const k = steps();
             if (!k || !st.isActive) return;
             const p = st.progress;
             if (p <= 0.001 || p >= 0.999) return;
-            const snapped = Math.round(p * k) / k;
+            const pos = p * k;
+            const near = Math.round(pos);
+            const idx =
+              Math.abs(pos - near) < 0.02 ? near : dir > 0 ? Math.ceil(pos) : Math.floor(pos);
+            const snapped = idx / k;
             const target = st.start + snapped * (st.end - st.start);
             if (Math.abs(target - window.scrollY) < 2) return;
             const lenis = getLenis();

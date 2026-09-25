@@ -158,7 +158,7 @@ export default function NeuralField({ count }: { count: number }) {
 
     // --- camera rig
     tmpA.set(...A.cam).lerp(tmpB.set(...B.cam), travel);
-    if (mobile) tmpA.z += 3.2;
+    if (size.width < 768) tmpA.z += 3.2;
     const px = store.mouse.x * 0.35 * motion;
     const py = store.mouse.y * 0.25 * motion;
     camera.position.x = THREE.MathUtils.damp(camera.position.x, tmpA.x + px, 6, dt);
@@ -171,7 +171,7 @@ export default function NeuralField({ count }: { count: number }) {
     // --- place formation beside the text (centered on small screens)
     if (group.current) {
       offsetTarget.set(...A.offset).lerp(tmpB.set(...B.offset), travel);
-      if (mobile || size.width < 900) offsetTarget.x = 0;
+      if (size.width < 900) offsetTarget.x = 0;
       group.current.position.lerp(offsetTarget, 1 - Math.exp(-6 * dt));
       group.current.rotation.y = THREE.MathUtils.damp(
         group.current.rotation.y,

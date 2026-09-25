@@ -203,7 +203,7 @@ export default function AscentScene() {
     const s = Math.min(Math.max(store.chapter, 0), 6);
     const a = Math.floor(s), b = Math.min(a + 1, 6);
     const f = smooth(0, 1, s - a);
-    const narrow = store.isMobile || size.width < 900;
+    const narrow = size.width < 900;
 
     // climb: rotate the tower so the current platform faces us, then bring it to its spot
     const climb = Math.min(s, 5);
