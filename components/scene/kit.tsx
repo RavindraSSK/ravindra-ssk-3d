@@ -95,6 +95,8 @@ export function Poly({
 export const lineMat = (color: string, opacity = 1) =>
   new THREE.LineBasicMaterial({ color, transparent: opacity < 1, opacity, depthWrite: opacity >= 1 });
 
+const mouseTarget = new THREE.Vector2();
+
 /**
  * Full-screen backdrop drawn behind everything with its own fragment shader.
  * Uniforms available: uTime, uRes (px), uMouse (-1..1), uChapter.
@@ -121,7 +123,7 @@ export function Backdrop({ fragment }: { fragment: string }) {
     const pr = gl.getPixelRatio();
     mat.uniforms.uRes.value.set(size.width * pr, size.height * pr);
     mat.uniforms.uTime.value = state.clock.elapsedTime * (store.reducedMotion ? 0.2 : 1);
-    mat.uniforms.uMouse.value.lerp(new THREE.Vector2(store.mouse.x, store.mouse.y), 0.06);
+    mat.uniforms.uMouse.value.lerp(mouseTarget.set(store.mouse.x, store.mouse.y), 0.06);
     mat.uniforms.uChapter.value = store.chapter;
   });
   return (

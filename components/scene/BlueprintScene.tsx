@@ -17,6 +17,8 @@ import { Backdrop, ChapterGroups, Poly, Segs, V, lineGeo, lineMat, rng, useChapt
 const BG = "#0e3158";
 const LINE = "#e8f1ff";
 const ACCENT = "#ffd166";
+const LINE_C = new THREE.Color(LINE);
+const ACCENT_C = new THREE.Color(ACCENT);
 
 const OFFSETS: Vec3[] = [
   [2.4, -0.1, 0],
@@ -432,7 +434,7 @@ function Columns({ m }: { m: Mats }) {
       g.children[1].position.y = h + 0.06;
       g.children[2].scale.y = h;
       fills[i].opacity = THREE.MathUtils.lerp(fills[i].opacity, on * 0.35, 0.15);
-      lines[i].color.lerp(new THREE.Color(on ? ACCENT : LINE), 0.15);
+      lines[i].color.lerp(on ? ACCENT_C : LINE_C, 0.15);
     });
   });
 

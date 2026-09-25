@@ -18,6 +18,8 @@ const BG = "#08090d";
 const LIME = "#a3e635";
 const CYAN = "#22d3ee";
 const INK = "#eef2ea";
+const LIME_C = new THREE.Color(LIME);
+const INK_C = new THREE.Color(INK);
 const DIM = "#3a4150";
 
 type Key = { offset: [number, number, number]; cam: [number, number, number]; look: [number, number, number]; scale?: number };
@@ -268,7 +270,7 @@ export default function AgentScene() {
   });
 
   useFrame(() => {
-    toolMats.forEach((m, i) => m.color.lerp(new THREE.Color(store.hoverCluster === i ? LIME : INK), 0.15));
+    toolMats.forEach((m, i) => m.color.lerp(store.hoverCluster === i ? LIME_C : INK_C, 0.15));
   });
 
   return (
